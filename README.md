@@ -2,28 +2,35 @@
 
 ## Status
 
-Partly done — users, groups, and MFA are live in the Azure subscription's
-Microsoft Entra ID (Default Directory). Conditional Access, dynamic groups,
-and self-service password reset need Entra ID P1, which the free tier does
-not include, so those are documented as blocked below. The M365 Developer
-Tenant (Instant Sandbox) is not available — Microsoft now limits the free
-E5 developer sandbox to Visual Studio Professional/Enterprise subscribers,
-partner program members, or Premier/Unified Support customers, and a
-personal account does not qualify — so this work uses the Entra ID tenant
-that comes with the Azure free trial instead.
+Done — users, groups, MFA, self-service password reset, Conditional
+Access, and the dynamic group are all live in the Azure subscription's
+Microsoft Entra ID (Default Directory). The premium features were
+unblocked on Nov 21, 2026 by a 30-day Microsoft 365 Business Premium
+trial, which includes Entra ID P1. The M365 Developer Tenant (Instant
+Sandbox) is not available — Microsoft now limits the free E5 developer
+sandbox to Visual Studio Professional/Enterprise subscribers, partner
+program members, or Premier/Unified Support customers, and a personal
+account does not qualify — so this work uses the Entra ID tenant that
+comes with the Azure free trial instead.
+
+The trial is free ($0.00), expires Dec 21, 2026, and recurring billing
+is Off, so it ends without charging. One of the 25 trial licenses is
+assigned to the admin account (1/25 assigned); the other 24 stay
+unassigned.
 
 ## What This Is
 
 Identity and access configurations in Microsoft Entra ID, practiced in
 the Default Directory of the Azure free trial. This repo documents the
-users, groups, and MFA I set up, plus the premium features that are
-blocked on licensing.
+users, groups, MFA, password reset, Conditional Access, and dynamic
+group I set up.
 
 ## Tools Used
 
 - Microsoft Entra ID (Default Directory, in the Azure free trial)
 - Azure Portal (portal.azure.com)
 - Entra admin center (entra.microsoft.com)
+- Microsoft 365 Business Premium trial (30 days, includes Entra ID P1)
 
 ## What I Built
 
@@ -44,24 +51,43 @@ auto-generated passwords.
 - Finance Department — members: Marcus Webb, Sofia Chen
 - Sales Department — member: David Kim
 
-### MFA (Security Defaults)
+### MFA
 
-Multi-factor authentication is enforced by Security Defaults, which was
-already Enabled in this directory ("Your organization is protected by
-security defaults"). Security Defaults is the free-tier way to enforce
-MFA for all users, including the admin account. No change was needed.
+Multi-factor authentication was first enforced by Security Defaults,
+which was already Enabled in this directory. To enable Conditional
+Access (below), Security Defaults had to be turned off first — the
+portal blocks Conditional Access while Security Defaults are on.
+Turning them off auto-created 4 Microsoft-managed policies, all On:
+Multifactor authentication for admins, Multifactor authentication for
+all users, Multifactor authentication for Azure Management, and Block
+legacy authentication. MFA protection remains, now enforced by those
+policies instead of Security Defaults.
 
-## Blocked (needs Entra ID P1)
+### Self-service password reset (SSPR) — done Nov 21, 2026
 
-These need a Microsoft Entra ID P1 (or P2) license, which the free tier
-does not include:
+Self-service password reset is set to All users, so any user can reset
+their own password. This needed Entra ID P1, which the Business
+Premium trial provides.
 
-- **Self-service password reset (SSPR)** — users resetting their own
-  passwords requires P1. Admins can still reset a user's password.
-- **Conditional Access** — a policy blocking sign-in from outside the US
-  requires P1.
-- **Dynamic groups** — a group that auto-adds users by a department rule
-  requires P1.
+### Conditional Access — done Nov 21, 2026
+
+Policy "Block sign-in outside US" — created and On (policy ID
+bf5283ef-e843-4d60-a156-6a75c6e4c423). Scope: all users, with the admin
+account excluded so the admin cannot lock itself out. Target: all
+resources (all cloud apps). Condition: any network or location, with
+the named location "United States" excluded. Grant: Block access. A
+sign-in from outside the United States is blocked; a sign-in from
+inside the US is allowed.
+
+### Dynamic group — done Nov 21, 2026
+
+Dynamic Security group "IT Department - Dynamic" (Object ID
+541633b8-38cc-4dae-bef5-2b8cfc3e23b1). Rule: user.department -eq
+"IT Department". The Department attribute was set on all 5 test users
+first (Alex Rivera and Priya Sharma = IT Department; Marcus Webb and
+Sofia Chen = Finance Department; David Kim = Sales Department). After
+the rule evaluated (about 5 minutes), membership populated with 2
+members: Alex Rivera and Priya Sharma.
 
 ## Screenshots
 
@@ -72,7 +98,10 @@ built from the data verified live in the portal on Nov 21, 2026:
 - entra-id-users-summary.pdf — All users list (5 test users + owner)
 - entra-id-groups-summary.pdf — All groups list (3 groups + members)
 - entra-id-security-defaults-summary.pdf — Security Defaults showing
-  "Enabled (recommended)"
+  "Enabled (recommended)" (as it was before Conditional Access)
+- entra-id-premium-features-summary.pdf — SSPR, the Conditional Access
+  policy, and the dynamic group, as verified after the trial unlocked
+  Entra ID P1
 
 ## Why It Matters
 
@@ -82,6 +111,7 @@ safe, and they're core to the Microsoft Technology Consultant role.
 
 ## Next Steps
 
-- If Entra ID P1 becomes available, add SSPR, the Conditional Access
-  policy (block sign-in outside the US), and the dynamic group by
-  department rule, and document them here.
+- The Entra ID work in the Word doc guide is complete. The remaining
+  portfolio work is Intune device management and the Exchange admin
+  tasks (see the intune-device-management and m365-admin-runbooks
+  repos).
