@@ -14,9 +14,7 @@ account does not qualify — so this work uses the Entra ID tenant that
 comes with the Azure free trial instead.
 
 The trial is free ($0.00), expires Dec 21, 2026, and recurring billing
-is Off, so it ends without charging. One of the 25 trial licenses is
-assigned to the admin account (1/25 assigned); the other 24 stay
-unassigned.
+is Off, so it ends without charging. Two of the 25 trial licenses are assigned (admin account + Alex Rivera, 2/25); the other 23 stay unassigned.
 
 ## What This Is
 
@@ -42,14 +40,17 @@ group I set up.
 - Sofia Chen — sofia.chen@alvingonzogmail.onmicrosoft.com — Finance Department
 - David Kim — david.kim@alvingonzogmail.onmicrosoft.com — Sales Department
 
-All are cloud-only test accounts created manually in the portal with
-auto-generated passwords.
+All are cloud-only test accounts created manually in the portal with auto-generated passwords.
+
+Outcome: 5 test users live in the Default Directory with departments set (see the users summary).
 
 ### Groups (3 Security groups, Assigned membership)
 
 - IT Department — members: Alex Rivera, Priya Sharma
 - Finance Department — members: Marcus Webb, Sofia Chen
 - Sales Department — member: David Kim
+
+Outcome: 3 Security groups live with members assigned (see the groups summary).
 
 ### MFA
 
@@ -60,14 +61,16 @@ portal blocks Conditional Access while Security Defaults are on.
 Turning them off auto-created 4 Microsoft-managed policies, all On:
 Multifactor authentication for admins, Multifactor authentication for
 all users, Multifactor authentication for Azure Management, and Block
-legacy authentication. MFA protection remains, now enforced by those
-policies instead of Security Defaults.
+legacy authentication. MFA protection remains, now enforced by those policies instead of Security Defaults.
+
+Outcome: MFA is enforced for all users by the 4 Microsoft-managed policies.
 
 ### Self-service password reset (SSPR) — done Nov 21, 2026
 
 Self-service password reset is set to All users, so any user can reset
-their own password. This needed Entra ID P1, which the Business
-Premium trial provides.
+their own password. This needed Entra ID P1, which the Business Premium trial provides.
+
+Outcome: any user can reset their own password — SSPR set to All.
 
 ### Conditional Access — done Nov 21, 2026
 
@@ -79,6 +82,8 @@ the named location "United States" excluded. Grant: Block access. A
 sign-in from outside the United States is blocked; a sign-in from
 inside the US is allowed.
 
+Outcome: sign-ins from outside the US are blocked — the policy is On.
+
 ### Dynamic group — done Nov 21, 2026
 
 Dynamic Security group "IT Department - Dynamic" (Object ID
@@ -86,8 +91,9 @@ Dynamic Security group "IT Department - Dynamic" (Object ID
 "IT Department". The Department attribute was set on all 5 test users
 first (Alex Rivera and Priya Sharma = IT Department; Marcus Webb and
 Sofia Chen = Finance Department; David Kim = Sales Department). After
-the rule evaluated (about 5 minutes), membership populated with 2
-members: Alex Rivera and Priya Sharma.
+the rule evaluated (about 5 minutes), membership populated with 2 members: Alex Rivera and Priya Sharma.
+
+Outcome: the group has 2 members (Alex Rivera, Priya Sharma) — the rule works.
 
 ## Screenshots
 
