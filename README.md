@@ -95,11 +95,11 @@ The Azure Portal's user and group tables do not survive print-to-PDF,
 so instead of portal screenshots this repo has clean summary documents
 built from the data verified live in the portal on Nov 21, 2026:
 
-- entra-id-users-summary.pdf — All users list (5 test users + owner)
-- entra-id-groups-summary.pdf — All groups list (3 groups + members)
-- entra-id-security-defaults-summary.pdf — Security Defaults showing
+- [entra-id-users-summary.pdf](entra-id-users-summary.pdf) — All users list (5 test users + owner)
+- [entra-id-groups-summary.pdf](entra-id-groups-summary.pdf) — All groups list (3 groups + members)
+- [entra-id-security-defaults-summary.pdf](entra-id-security-defaults-summary.pdf) — Security Defaults showing
   "Enabled (recommended)" (as it was before Conditional Access)
-- entra-id-premium-features-summary.pdf — SSPR, the Conditional Access
+- [entra-id-premium-features-summary.pdf](entra-id-premium-features-summary.pdf) — SSPR, the Conditional Access
   policy, and the dynamic group, as verified after the trial unlocked
   Entra ID P1
 
